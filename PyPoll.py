@@ -40,6 +40,11 @@ winning_count = 0
     # Declare a variable for the "winning_percentage" equal to zero.
 winning_percentage = 0
 
+# CHALLENGE VARIABLES 
+county_options = []
+county_votes = {}
+lg_county_turnout = ""
+lg_county_count = 0
 
 # Open the election results and read the file.
 with open(file_to_load) as election_data:
@@ -70,10 +75,14 @@ with open(file_to_load) as election_data:
     # print(total_votes)
         # Print candidate name from each row 
         candidate_name = row[2]
-
+        county_name = row[1]
         # Add the candidate name to the candidate list 
         # candidate_options.append(candidate_name)
         # If the candidate does not match any existing candidates...
+        if county_name not in county_options:
+            county_options.append(county_name)
+            county_votes[county_name] = 0 
+
         if candidate_name not in candidate_options:
             # Add it to the list of candidates.
             # This works because candiate_options was a defined empty list, this just adds to the empty list if the name in the second row of the data was not already in the list 
@@ -92,6 +101,8 @@ with open(file_to_load) as election_data:
         # We put this out of the if statement, but aligned with the for loop because it says that for each row that has one of the candidate names, add one to the value of that key 
         # We have all the candidate names because of the if statement above 
             # QUESTION: How would we add something along each of the candidate names? 
+        county_votes[county_name] += 1
+
 with open(file_to_save, "w") as txt_file: 
     election_results = (
         f"\nElection Results\n"
@@ -99,7 +110,8 @@ with open(file_to_save, "w") as txt_file:
         f"Total Votes: {total_votes:,}\n"
         f"-------------------------\n")
     print(election_results, end="")
-    txt_file.write(election_results) # Why does this export onto the election analysis txt and not on the excel file? 
+    txt_file.write(election_results) # Why does this export onto the election analysis txt and not on the excel file? BEacuse you're printing the object onto the file, where do we define this as the file? 
+
     # Determine the percentage of votes for each candidate by looping through the counts.
     # 1. Iterate through the candidate list.
     for candidate_name in candidate_votes: # remember: candidate_name = a list of unique candidate names and canidate votes is the dictionary that holds the candidate_name and the vote values 
@@ -139,3 +151,10 @@ with open(file_to_save, "w") as txt_file:
     print(winning_candidate_summary)
     txt_file.write(winning_candidate_summary)
     # print(f"{winning_candidate} won with {winning_count} votes, which is {winning_percentage:.2f}% of the total vote")
+
+## CHALLENGE SECTION 
+    # Each county and its total vote count are printed to the terminal. (15 pt)
+
+    # Each county and its percentage of the total votes are printed to the terminal. (10 pt)
+
+    # The county with the largest number of voters is printed to the terminal. (10 pt)
