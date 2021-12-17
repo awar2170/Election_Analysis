@@ -22,6 +22,25 @@ file_to_load = os.path.join("Election_Analysis/Resources", "election_results.csv
 # Create a filename variable to a direct or indirect path to the file.
 file_to_save = os.path.join("Election_Analysis/analysis", "election_analysis.txt")
 
+# Total votes counter
+total_votes = 0 
+
+# Unique canidates, list 
+candidate_options = []
+
+# Candidate Votes dictionary 
+candidate_votes = {}
+
+# For the section: Finding the winning candidate 
+        # We need these out of the for loops and before the open statement so that we are certain they are 0 and/or empty before we run any code here. 
+    # Declare a variable that holds an empty string value for the winning candidate.
+winning_candidate = ""
+    # Declare a variable for the "winning count" equal to zero.
+winning_count = 0
+    # Declare a variable for the "winning_percentage" equal to zero.
+winning_percentage = 0
+
+
 # Open the election results and read the file.
 with open(file_to_load) as election_data:
     file_reader = csv.reader(election_data)
@@ -34,10 +53,85 @@ with open(file_to_load) as election_data:
     # for row in file_reader:
     #     print(row[0])
 
-    # Read and print the header row.
+    # Read and the header row.
     headers = next(file_reader)
-    print(headers)
+    # Print headers row if you want it 
+    #print(headers)
 
 # Add a vote count for each candidate.
+
+# The total votes variable needs to be above the code where we open the file with the with open() statement
+# This is because we want total_votes = 0 each time we run the file 
+# IF we didn't do this, then every time we run the file, we would add to the total votes count 
+
+# Total votes for all of the candidates 
+    for row in file_reader: 
+        total_votes += 1 # This is equal to number = number + 1
+    # print(total_votes)
+        # Print candidate name from each row 
+        candidate_name = row[2]
+
+        # Add the candidate name to the candidate list 
+        # candidate_options.append(candidate_name)
+        # If the candidate does not match any existing candidates...
+        if candidate_name not in candidate_options:
+            # Add it to the list of candidates.
+            # This works because candiate_options was a defined empty list, this just adds to the empty list if the name in the second row of the data was not already in the list 
+            candidate_options.append(candidate_name)
+
 # Get the total votes for each candidate.
+    # Create a dictionary, where the key = candidate's name and the vote count = the value for that key 
+    # We want that to be a part of the if statement in line 69
+            candidate_votes[candidate_name] = 0 # Starts tracking the candidate's vote count 
+            # This makes the dictionary look like: {"Name": 0, "Name2": 0, "Name3": 0}, so now we can do the math on the value for each key
+            # This works because the candidate_votes object is an empty dictionary.  We have now filled it with keys from the candidate_name list 
+            # How does Python know that the candidate_name list are the keys? 
+                # It knows because each candidate_name is being assigned the value of 0, and only keys can be assigned values.
+    # Now we want to add candidate votes to the candidate count 
+        candidate_votes[candidate_name] += 1 # This says to add one to each of the candidate name values
+        # We put this out of the if statement, but aligned with the for loop because it says that for each row that has one of the candidate names, add one to the value of that key 
+        # We have all the candidate names because of the if statement above 
+            # QUESTION: How would we add something along each of the candidate names? 
+    print(candidate_votes)
+
+# Determine the percentage of votes for each candidate by looping through the counts.
+# 1. Iterate through the candidate list.
+for candidate_name in candidate_votes: # remember: candidate_name = a list of unique candidate names and canidate votes is the dictionary that holds the candidate_name and the vote values 
+    # 2. Retrieve vote count of a candidate.
+    votes = candidate_votes[candidate_name] # This takes the total votes values from the dictionary and puts them in a list, so we basically have unnamed votes now  
+    # 3. Calculate the percentage of votes.
+    # We make the values floats because we want to have it as a percentage
+        # Like R "as.numeric" but python has many types of numeric; this is just the one you need for this 
+    vote_percentage = float(votes) / float(total_votes) * 100
+    # 4. Print the candidate name and percentage of votes.
+    # print(f"{candidate_name}: received {vote_percentage:.2f}% of the vote.") <- Alternate way to write the same thing as line 108
+    print(f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+        # This works because candidate_name is a unique list of the candidate names, and the vote_percentage is what we calculated before 
+        # This is in a for loop, so it is going to loop for each candidate_name in the dictionary of candidate votes, we want to do this thing
+        # That's why it will run for each candidate 
+
+# Find the winning canidate, vote count, and percentage 
+
+    # Determine winning vote count and candidate
+    # Determine if the votes is greater than the winning count.
+    if (votes > winning_count) and (vote_percentage > winning_percentage):
+        # If true then set winning_count = votes and winning_percent =
+        # vote_percentage.
+        winning_count = votes
+        winning_percentage = vote_percentage
+        # And, set the winning_candidate equal to the candidate's name.
+        winning_candidate = candidate_name
+        
+winning_candidate_summary = (
+    f"-------------------------\n"
+    f"Winner: {winning_candidate}\n"
+    f"Winning Vote Count: {winning_count:,}\n"
+    f"Winning Percentage: {winning_percentage:.1f}%\n"
+    f"-------------------------\n")
+print(winning_candidate_summary)
+
+print(f"{winning_candidate} won with {winning_count} votes, which is {winning_percentage:.2f}% of the total vote")
+
+#  To do: print out the winning candidate, vote count and percentage to
+#   terminal.
 # Get the total votes cast for the election.
