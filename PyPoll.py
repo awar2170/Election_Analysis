@@ -92,46 +92,50 @@ with open(file_to_load) as election_data:
         # We put this out of the if statement, but aligned with the for loop because it says that for each row that has one of the candidate names, add one to the value of that key 
         # We have all the candidate names because of the if statement above 
             # QUESTION: How would we add something along each of the candidate names? 
-    print(candidate_votes)
+with open(file_to_save, "w") as txt_file: 
+    election_results = (
+        f"\nElection Results\n"
+        f"-------------------------\n"
+        f"Total Votes: {total_votes:,}\n"
+        f"-------------------------\n")
+    print(election_results, end="")
+    txt_file.write(election_results) # Why does this export onto the election analysis txt and not on the excel file? 
+    # Determine the percentage of votes for each candidate by looping through the counts.
+    # 1. Iterate through the candidate list.
+    for candidate_name in candidate_votes: # remember: candidate_name = a list of unique candidate names and canidate votes is the dictionary that holds the candidate_name and the vote values 
+        # 2. Retrieve vote count of a candidate.
+        votes = candidate_votes[candidate_name] # This takes the total votes values from the dictionary and puts them in a list, so we basically have unnamed votes now  
+        # 3. Calculate the percentage of votes.
+        # We make the values floats because we want to have it as a percentage
+            # Like R "as.numeric" but python has many types of numeric; this is just the one you need for this 
+        vote_percentage = float(votes) / float(total_votes) * 100
+        # 4. Print the candidate name and percentage of votes.
+        # print(f"{candidate_name}: received {vote_percentage:.2f}% of the vote.") <- Alternate way to write the same thing as line 108
+        candidate_results = (f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
+        print(candidate_results)
+            # This works because candidate_name is a unique list of the candidate names, and the vote_percentage is what we calculated before 
+            # This is in a for loop, so it is going to loop for each candidate_name in the dictionary of candidate votes, we want to do this thing
+            # That's why it will run for each candidate 
+        txt_file.write(candidate_results)
 
-# Determine the percentage of votes for each candidate by looping through the counts.
-# 1. Iterate through the candidate list.
-for candidate_name in candidate_votes: # remember: candidate_name = a list of unique candidate names and canidate votes is the dictionary that holds the candidate_name and the vote values 
-    # 2. Retrieve vote count of a candidate.
-    votes = candidate_votes[candidate_name] # This takes the total votes values from the dictionary and puts them in a list, so we basically have unnamed votes now  
-    # 3. Calculate the percentage of votes.
-    # We make the values floats because we want to have it as a percentage
-        # Like R "as.numeric" but python has many types of numeric; this is just the one you need for this 
-    vote_percentage = float(votes) / float(total_votes) * 100
-    # 4. Print the candidate name and percentage of votes.
-    # print(f"{candidate_name}: received {vote_percentage:.2f}% of the vote.") <- Alternate way to write the same thing as line 108
-    print(f"{candidate_name}: {vote_percentage:.1f}% ({votes:,})\n")
-        # This works because candidate_name is a unique list of the candidate names, and the vote_percentage is what we calculated before 
-        # This is in a for loop, so it is going to loop for each candidate_name in the dictionary of candidate votes, we want to do this thing
-        # That's why it will run for each candidate 
+    # Find the winning canidate, vote count, and percentage 
 
-# Find the winning canidate, vote count, and percentage 
+        # Determine winning vote count and candidate
+        # Determine if the votes is greater than the winning count.
+        if (votes > winning_count) and (vote_percentage > winning_percentage):
+            # If true then set winning_count = votes and winning_percent =
+            # vote_percentage.
+            winning_count = votes
+            winning_percentage = vote_percentage
+            # And, set the winning_candidate equal to the candidate's name.
+            winning_candidate = candidate_name
 
-    # Determine winning vote count and candidate
-    # Determine if the votes is greater than the winning count.
-    if (votes > winning_count) and (vote_percentage > winning_percentage):
-        # If true then set winning_count = votes and winning_percent =
-        # vote_percentage.
-        winning_count = votes
-        winning_percentage = vote_percentage
-        # And, set the winning_candidate equal to the candidate's name.
-        winning_candidate = candidate_name
-        
-winning_candidate_summary = (
-    f"-------------------------\n"
-    f"Winner: {winning_candidate}\n"
-    f"Winning Vote Count: {winning_count:,}\n"
-    f"Winning Percentage: {winning_percentage:.1f}%\n"
-    f"-------------------------\n")
-print(winning_candidate_summary)
-
-print(f"{winning_candidate} won with {winning_count} votes, which is {winning_percentage:.2f}% of the total vote")
-
-#  To do: print out the winning candidate, vote count and percentage to
-#   terminal.
-# Get the total votes cast for the election.
+    winning_candidate_summary = (
+        f"-------------------------\n"
+        f"Winner: {winning_candidate}\n"
+        f"Winning Vote Count: {winning_count:,}\n"
+        f"Winning Percentage: {winning_percentage:.1f}%\n"
+        f"-------------------------\n")
+    print(winning_candidate_summary)
+    txt_file.write(winning_candidate_summary)
+    # print(f"{winning_candidate} won with {winning_count} votes, which is {winning_percentage:.2f}% of the total vote")
