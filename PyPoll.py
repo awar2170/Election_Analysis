@@ -20,7 +20,7 @@ file_to_load = os.path.join("Election_Analysis/Resources", "election_results.csv
 # Write to Files with Python 
 
 # Create a filename variable to a direct or indirect path to the file.
-file_to_save = os.path.join("Election_Analysis/analysis", "election_analysis.txt")
+file_to_save = os.path.join("Election_Analysis/analysis", "election_analysis.txt") # Tells python where things are going to be saved 
 
 # Total votes counter
 total_votes = 0 
@@ -45,6 +45,7 @@ county_options = []
 county_votes = {}
 lg_county_turnout = ""
 lg_county_count = 0
+lg_county_percentage = 0
 
 # Open the election results and read the file.
 with open(file_to_load) as election_data:
@@ -101,16 +102,38 @@ with open(file_to_load) as election_data:
         # We put this out of the if statement, but aligned with the for loop because it says that for each row that has one of the candidate names, add one to the value of that key 
         # We have all the candidate names because of the if statement above 
             # QUESTION: How would we add something along each of the candidate names? 
+                # Ways to Change Keys in dictionary: https://www.geeksforgeeks.org/python-ways-to-change-keys-in-dictionary/
         county_votes[county_name] += 1
 
-with open(file_to_save, "w") as txt_file: 
+with open(file_to_save, "w") as txt_file: # the with open command tells python to open a file and "w" as txt_file
+    # txt_file is the file_to_save, but the txt_file is the stand in variable for the file_to_save variable 
     election_results = (
         f"\nElection Results\n"
         f"-------------------------\n"
         f"Total Votes: {total_votes:,}\n"
-        f"-------------------------\n")
+        f"-------------------------\n"
+        f"County Votes: \n")
     print(election_results, end="")
     txt_file.write(election_results) # Why does this export onto the election analysis txt and not on the excel file? BEacuse you're printing the object onto the file, where do we define this as the file? 
+
+# The for loop below uses the same logic and the for loop below (the candidate name and candidate votes loop)
+    for county_name in county_votes: 
+        votes_county = county_votes[county_name]
+        vote_county_percentage = float(votes_county)/float(total_votes)*100
+        county_results = (f"{county_name}: {vote_county_percentage:.1f}% ({votes_county:,})\n")
+        print(county_results)
+        txt_file.write(county_results)
+        
+        if (votes_county > lg_county_count) and (vote_county_percentage > lg_county_percentage): 
+            lg_county_count = votes_county
+            lg_county_percentage = vote_county_percentage
+            lg_county_turnout = county_name
+    lg_county_summary = (
+        f"-------------------------\n"
+        f"Largest County Turnout: {lg_county_turnout}\n"
+        f"-------------------------\n")
+    print(lg_county_summary)
+    txt_file.write(lg_county_summary)
 
     # Determine the percentage of votes for each candidate by looping through the counts.
     # 1. Iterate through the candidate list.
