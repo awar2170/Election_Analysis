@@ -174,10 +174,3 @@ with open(file_to_save, "w") as txt_file: # the with open command tells python t
     print(winning_candidate_summary)
     txt_file.write(winning_candidate_summary)
     # print(f"{winning_candidate} won with {winning_count} votes, which is {winning_percentage:.2f}% of the total vote")
-
-## CHALLENGE SECTION 
-    # Each county and its total vote count are printed to the terminal. (15 pt)
-
-    # Each county and its percentage of the total votes are printed to the terminal. (10 pt)
-
-    # The county with the largest number of voters is printed to the terminal. (10 pt)
