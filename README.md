@@ -15,7 +15,7 @@ A hypothetical Colorade Board of Election employee has given me the following ta
 - Software: Python 3.10.1, Visual Studio Code 1.63.2
 
 ## Summary
-![The analysis of the election](https://github.com/awar2170/Election_Analysis/blob/main/analysis/election_analysis.txt) shows that: 
+The ![analysis of the election](https://github.com/awar2170/Election_Analysis/blob/main/analysis/election_analysis.txt) shows that: 
 
 - There were 369,711 votes cast in the election. 
 - The candidates were: 
