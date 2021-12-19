@@ -15,7 +15,7 @@ A hypothetical Colorade Board of Election employee has given me the following ta
 - Software: Python 3.10.1, Visual Studio Code 1.63.2
 
 ## Summary
-The analysis of the eleciton shows that: 
+![The analysis of the election](https://github.com/awar2170/Election_Analysis/blob/main/analysis/election_analysis.txt) shows that: 
 
 - There were 369,711 votes cast in the election. 
 - The candidates were: 
@@ -35,8 +35,6 @@ The analysis of the eleciton shows that:
    - Arapahoe County received 6.7% of the vote and 24,801 votes.
  - The county with the largest turnout was:
    - Denver County, which received 82.8% of the vote and 306,055 votes. 
-
-![Click here to see the results from the txt file.](https://github.com/awar2170/Election_Analysis/blob/main/analysis/election_analysis.txt)
 
 ## Challenge Overview 
 The purpose of the challenge was to replicate similar code from the module to calculate the total number of votes for each county, the percentages of votes for each county, and determine which county had the largest turnout.  
